@@ -1,1 +1,1 @@
-# SofDCar
+# SofDCar Hackathon
