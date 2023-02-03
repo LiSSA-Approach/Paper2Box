@@ -83,9 +83,9 @@ cfg = get_cfg()
 # Get config file for zoo model
 cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
 # ROI pooling threshold
-cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
+cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 1e-10
 # Get weights for model
-cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
+cfg.MODEL.WEIGHTS = './model/model_final.pth'
 # Set device to
 cfg.MODEL.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -96,31 +96,7 @@ output = predictor(im)
 
 # Draw predictions using visualizer
 v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
+# Draw predictions on image
 out = v.draw_instance_predictions(output["instances"].to("cpu"))
+# Show image
 show_img(out.get_image()[:, :, ::-1])
-
-from detectron2.engine import DefaultTrainer
-
-# Tuple dataset
-cfg.DATASETS.TRAIN = ("sketches_train",)
-cfg.DATASETS.TEST = ()
-# Workers for training
-cfg.DATALOADER.NUM_WORKERS = 2
-# Batch size
-cfg.SOLVER.IMS_PER_BATCH = 2
-# Learning rate
-cfg.SOLVER.BASE_LR = 0.00025
-# Epochs
-cfg.SOLVER.MAX_ITER = 30
-# Learning rate decay
-cfg.SOLVER.STEPS = []
-# RoI pooling batch size
-cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
-# Amount of classes
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(classes)
-
-
-os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
-trainer = DefaultTrainer(cfg)
-trainer.resume_or_load(resume=False)
-trainer.train()
