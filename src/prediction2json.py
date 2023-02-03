@@ -1,11 +1,11 @@
-import json
+import json, copy
 
 def prediction2json(classes, prediciton):
     flat_box_array = extract_flat_box_array(classes, prediciton)
-    box_array = create_tree_hierarchy(flat_box_array)
-    print(box_array)
+    box_array = create_forest_hierarchy(flat_box_array)
+    #print(box_array)
     with open('pediction.json', 'w') as file:
-        json.dump(flat_box_array, file, indent=4)
+        json.dump(box_array, file, indent=4)
 
 def extract_flat_box_array(classes, prediciton):
     flat_box_array = []
@@ -21,28 +21,29 @@ def extract_flat_box_array(classes, prediciton):
         }) 
     return flat_box_array
 
-#def build_hierarchy(flat_box_array):
-    #hierarchy = []
-    #for i, box1 in enumerate(flat_box_array):
-        #hierarchy.append(box1)
-        #box1 = box1['XYXY']
-        #for j, box2 in enumerate(flat_box_array):
-            #box2 = box2['XYXY']
-            #if i == j: continue
-            #if box1[0] > box2[0] and box1[1] > box2[1] and box1[2] < box2[2] and box1[3] < box2[3]:
-                #hierarchy[i]['children'].append(hierarchy[j])
-    #return hierarchy
-
 def find_relations(boxes):
     relations = []
-    for i, box1 in enumerate(boxes):
-        box1 = box1['XYXY']
-        for j, box2 in enumerate(boxes):
-            box2 = box2['XYXY']
+    for i, outer_box in enumerate(boxes):
+        outer_box = outer_box['XYXY']
+        for j, inner_box in enumerate(boxes):
+            inner_box = inner_box['XYXY']
             if i == j:
                 continue
-            if box1[0] > box2[0] and box1[1] > box2[1] and box1[2] < box2[2] and box1[3] < box2[3]:
+            if outer_box[0] < inner_box[0] and outer_box[1] < inner_box[1] and outer_box[2] > inner_box[2] and outer_box[3] > inner_box[3]:
                 relations.append((i, j))
+    return relations
+
+def transitive_reduction(input_relations):
+    relations = input_relations.copy()
+    delete = []
+    for  x in relations:
+        for y in relations:
+            for z in relations:
+                if (x,y) != (y,z) and (x,y) != (x,z):
+                    if (x,y) in relations and (y,z) in relations:
+                        delete.append((x,z))
+    for d in delete:
+        relations.remove(d)
     return relations
 
 class TreeNode():
@@ -50,18 +51,34 @@ class TreeNode():
         self.data = data
         self.children = []
 
-def build_tree(elements, relations):
+    def __repr__(self):
+        return f'data: {self.data}, children: {repr(self.children)}'
+
+def build_forest(elements, relations):
     set_ = [TreeNode(e) for e in elements]
     for (parent, child) in relations:
         parent_node = [s for s in set_ if s.data == parent]
+        if parent_node == []: continue
+        parent_node = parent_node[0]
         child_node = [s for s in set_ if s.data == child]
-        parent_node.children.append(child_node)
+        if child_node == []: continue
+        child_node = child_node[0]
+        parent_node.children.append(copy.copy(child_node))
+        set_ = [s for s in set_ if s.data != child]
+    return set_
 
-def create_tree_hierarchy(boxes):
-    lin_hierarchy = create_linear_hierarchy(boxes)
-    tree_hiera
-    print(lin_hierarchy)
-    while lin_hierarchy != []:
+def create_forest_hierarchy(boxes):
+    relations = find_relations(boxes)
+    relations = transitive_reduction(relations)
+    elements = list(range(len(boxes)))
+    forest = build_forest(elements, relations)
+    box_forest = index_to_box(boxes, forest)
+    return box_forest
 
-
-
+def index_to_box(boxes, index_forest):
+    box_forest = []
+    for i in index_forest:
+        box = boxes[i.data].copy()
+        box['children'] = index_to_box(boxes, i.children)
+        box_forest.append(box)
+    return box_forest
