@@ -41,12 +41,7 @@ class Prediction():
         return new_boxes
     
     def attatch_labels(self):
-        new_boxes = []
-        for box in self.boxes:
-            new_boxes.append(box)
-            if box.class_ != 'Label': continue
-            (x1, y1, x2, y2) = box.XYXY
-            box.text = recognize_text(self.image, x1, y1, x2, y2)
+        self.boxes = self.boxes +  recognize_text(self.image)
     
     def create_forest(self):
         relations = _find_relations(self.boxes)

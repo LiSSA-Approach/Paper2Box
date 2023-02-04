@@ -88,7 +88,7 @@ def get_prediction(image_file, visualize=False):
     output = predictor(im)
 
 
-    json_prediction = Prediction(im, classes, output["instances"].to("cpu")).to_json()
+    json_prediction = Prediction(im, classes, output["instances"].to("cpu")[output["instances"].to("cpu")._fields["pred_classes"] != 5]).to_json()
     if not visualize: return json_prediction 
 
     # Draw predictions using visualizer
