@@ -1,0 +1,4 @@
+.vscode
+*.pth
+data/
+src/__pycache__
