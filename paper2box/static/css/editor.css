@@ -48,9 +48,9 @@
     background-color: #FFFFFFaF;
     border: 2px solid #e6e6e6;
     cursor: grab;
-    transition: 0.1s;
     resize: both;
     overflow: hidden;
+    transition: 0.1s;
 }
 
 .Label-text {
