@@ -37,7 +37,7 @@
     cursor: grab;
     resize: both;
     overflow: hidden;
-    transition: 0.05s;
+    transition: 0.1s;
 }
 
 .Label-text {
@@ -49,7 +49,7 @@
     border: 0;
     font-family: Monsterrat;
     font-weight: bold;
-    font-size: 0.6em;
+    font-size: 1em;
     width:100%;
     height:100%;
 }
@@ -57,21 +57,13 @@
     border: 2px dashed #0789f22a;
     background-color: #00000000;
 }
+.Node:hover, .Node-selected {
+    background-color: #0789f20a;
+    border: 2px solid #0789f2;
+}
 .ClassNode {
 }
 
 .PackageNode {
-    background-color: #42f5e31f;
-    border: 2px solid #3bd9d952;
-}
-
-.Connection {
-    position:absolute;
-    resize: none;
-}
-
-.Node:hover, .Node-selected {
-    position: absolute;
-    background-color: #0789f21a;
-    border: 2px solid #0789f2;
+    background-color: #ffe83d0f;
 }
