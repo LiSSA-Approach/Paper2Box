@@ -1,4 +1,4 @@
-.vscode
-*.pth
 data/
+*.pth
+.vscode
 src/__pycache__

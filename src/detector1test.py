@@ -1,4 +1,5 @@
 import torch, detectron2
+from prediction2json import prediction2json
 
 import numpy as np
 import os, json, cv2, random
@@ -88,6 +89,7 @@ cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 1e-10
 cfg.MODEL.WEIGHTS = './model/model_final.pth'
 # Set device to
 cfg.MODEL.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(classes)
 
 predictor = DefaultPredictor(cfg)
 
@@ -95,8 +97,10 @@ im = cv2.imread('./data/images/ex_02.jpg')
 output = predictor(im)
 
 # Draw predictions using visualizer
-v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
+v = Visualizer(im[:, :, ::-1], metadata=sketches_metadata, scale=1.2)
 # Draw predictions on image
 out = v.draw_instance_predictions(output["instances"].to("cpu"))
 # Show image
 show_img(out.get_image()[:, :, ::-1])
+
+prediction2json(classes, output["instances"].to("cpu"))
