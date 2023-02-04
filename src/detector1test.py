@@ -101,6 +101,7 @@ v = Visualizer(im[:, :, ::-1], metadata=sketches_metadata, scale=1.2)
 # Draw predictions on image
 out = v.draw_instance_predictions(output["instances"].to("cpu"))
 # Show image
-show_img(out.get_image()[:, :, ::-1])
+#show_img(out.get_image()[:, :, ::-1])
 
-prediction2json(classes, output["instances"].to("cpu"))
+print(output["instances"].to("cpu"))
+print(prediction2json(classes, output["instances"].to("cpu")))

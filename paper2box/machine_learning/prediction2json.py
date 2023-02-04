@@ -1,11 +1,13 @@
 import json, copy
 
-def prediction2json(classes, prediciton):
-    flat_box_array = extract_flat_box_array(classes, prediciton)
+def prediction2json(classes, prediction):
+    flat_box_array = extract_flat_box_array(classes, prediction)
     box_array = create_forest_hierarchy(flat_box_array)
-    #print(box_array)
+    print(box_array)
+    return json.dumps(box_array, indent=4)
     with open('prediction.json', 'w') as file:
         json.dump(box_array, file, indent=4)
+    
 
 def extract_flat_box_array(classes, prediciton):
     flat_box_array = []
