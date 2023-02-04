@@ -264,14 +264,6 @@ class AssociationNode extends Node {
 
 }
 
-class Connection extends Node {
-    constructor(x1, y1, x2, y2, parent=diagram, _class="Connection") {
-        super(0, 0, 100, 100, parent, _class);
-        this.bbox.classList.add('Connection');
-
-    }
-}
-
 
 
 
@@ -303,10 +295,6 @@ function initChildreen(object, parent)
                 initChildreen(child, _packagenode);
                 parent.children.push(_packagenode);
                 break;
-            case "Connection":
-                let _connection = new Connection(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
-                initChildreen(object, _connection)
-                break;
     }
 }
 
@@ -326,10 +314,6 @@ for(object of objects)
         case "PackageNode":
             let _packagenode = new PackageNode(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
             initChildreen(object, _packagenode)
-            break;
-        case "Connection":
-            let _connection = new Connection(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
-            initChildreen(object, _connection)
             break;
     }
 }
