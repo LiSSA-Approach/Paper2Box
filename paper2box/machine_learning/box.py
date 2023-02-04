@@ -8,8 +8,8 @@ class Box():
         self.confidence = confidence
         self.XYXY = XYXY
         self.children = children
-        self.id = self.current_id
-        self.current_id += 1
+        self.id = Box.current_id
+        Box.current_id += 1
 
 class BoxSerializer(json.JSONEncoder):
     def default(self, o):
@@ -17,7 +17,6 @@ class BoxSerializer(json.JSONEncoder):
         dict_['class'] = dict_['class_']
         del dict_['class_']
         return dict_
-
 
 def extract_boxes(classes, prediction):
     box_list = []
@@ -27,7 +26,6 @@ def extract_boxes(classes, prediction):
     for (XYXY, confidence, class_) in zipped:
         box_list.append(Box(class_, confidence, XYXY, [])) 
     return box_list
-
 
 def create_forest(boxes):
     relations = _find_relations(boxes)
