@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.index),
     path('editor/', views.editor),
     path('demo/editor/', views.demo_editor),
+    path('editor_json/', views.editor_json),
 ]
 
 # Media files

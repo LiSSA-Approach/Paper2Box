@@ -6,6 +6,13 @@
     <script src="/static/js/editor.js" defer></script>
 {% endblock %}
 {% block content %}
+    <div class="card" id="json-area">
+        <form method="post" action="/editor_json/" id="json-form">
+            {% csrf_token %}
+            <img src="/static/img/json.svg" class="svg-button" id="json-ctc">
+            <input type="text" name="json" id="json-input"/>
+        </form>
+    </div>
     <div id="diagram">
         {{json}}
     </div>
