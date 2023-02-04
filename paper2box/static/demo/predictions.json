@@ -574,5 +574,15 @@
 				"children": []
 			}
 		]
+    },
+    {
+        "class": "Connection",
+        "XYXY": [
+            0,
+            80,
+            100,
+            20
+        ],
+        "children": []
     }
 ]
