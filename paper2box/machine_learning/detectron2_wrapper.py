@@ -13,7 +13,7 @@ from detectron2 import model_zoo
 from matplotlib import pyplot as plt
 import matplotlib
 
-from prediction2json import prediction2json
+from box import pred_to_json
 
 DATA_LOC = "../../data"
 
@@ -69,13 +69,6 @@ def get_prediction(image_file, visualize=False):
     sketches_metadata = MetadataCatalog.get("sketches_train")
 
     dataset_dicts = get_dicts(DATA_LOC, "train")
-    #for d in random.sample(dataset_dicts, 3):
-        #img = cv2.imread(d["file_name"])
-        #visualizer = Visualizer(img[:, :, ::-1], metadata=sketches_metadata, scale=0.5)
-        #out = visualizer.draw_dataset_dict(d)
-        ## show_img(out.get_image()[:, :, ::-1])
-
-    from detectron2 import model_zoo
 
     # Model config
     cfg = get_cfg()
@@ -95,7 +88,7 @@ def get_prediction(image_file, visualize=False):
     output = predictor(im)
 
 
-    json_prediction = prediction2json(classes, output["instances"].to("cpu"))
+    json_prediction = pred_to_json(classes, output["instances"].to("cpu"))
     if not visualize: return json_prediction 
 
     # Draw predictions using visualizer
