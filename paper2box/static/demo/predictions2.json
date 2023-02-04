@@ -93,7 +93,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1539.490478515625,
 			826.844482421875,
@@ -123,7 +123,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1003.5496826171875,
 			508.7891540527344,
@@ -133,7 +133,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1002.8187255859375,
 			989.5931396484375,
@@ -143,7 +143,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			998.4221801757812,
 			950.3663330078125,
@@ -153,7 +153,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			308.5720520019531,
 			184.26947021484375,
@@ -173,7 +173,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1001.71435546875,
 			1031.93359375,
@@ -193,7 +193,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			994.5606689453125,
 			915.2216796875,
@@ -203,7 +203,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			383.3505554199219,
 			1308.583740234375,
@@ -213,7 +213,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			64.50211334228516,
 			1304.805419921875,
@@ -223,7 +223,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			379.5469055175781,
 			787.799072265625,
@@ -233,7 +233,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			997.2803344726562,
 			870.0391235351562,
@@ -243,7 +243,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1002.922607421875,
 			838.224853515625,
@@ -253,7 +253,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			380.7665100097656,
 			1029.46728515625,
@@ -263,7 +263,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1547.056884765625,
 			509.2843322753906,
@@ -273,7 +273,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1108.9873046875,
 			416.9040222167969,
@@ -283,7 +283,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1538.3233642578125,
 			627.3271484375,
@@ -293,7 +293,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1001.7296752929688,
 			1069.4111328125,
@@ -303,7 +303,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			376.7013244628906,
 			665.1459350585938,
@@ -313,7 +313,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1002.9100952148438,
 			460.25140380859375,
@@ -323,7 +323,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			997.4078369140625,
 			1075.9324951171875,
@@ -333,7 +333,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			380.5592956542969,
 			542.1796264648438,
@@ -343,7 +343,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1541.8287353515625,
 			955.11865234375,
@@ -353,7 +353,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			375.5292053222656,
 			1432.2550048828125,
@@ -363,7 +363,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			998.372802734375,
 			787.2628784179688,
@@ -373,7 +373,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			711.4714965820312,
 			386.3604736328125,
@@ -383,7 +383,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			998.0527954101562,
 			610.35986328125,
@@ -393,7 +393,7 @@
 		"children": []
 	},
 	{
-		"class": "Label",
+		"class": "ClassNode",
 		"XYXY": [
 			1096.192626953125,
 			746.3915405273438,
@@ -401,17 +401,5 @@
 			777.7705688476562
 		],
 		"children": []
-	},
-	{
-		"class": "ClassNode",
-		"XYXY": [
-			0,
-			0,
-			300,
-			200
-		],
-		"children": [
-			false
-		]
     }
 ]
