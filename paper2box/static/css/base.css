@@ -23,18 +23,11 @@ body { background-color: #f3f3f3; border-radius: 1px; }
 a { text-decoration: none; color: black; }
 h1, h2, h3, h4, h5, h6 { font-family: Monsterrat; }
 hr { border: 1px solid #e6e6e6; }
-input[type="file"] { display: none; }
-.input-file-label {
-    border-radius: 0.5em;
-    color: white;
-    padding: 0.8em;
-    background-color: #03a5fc;
-    cursor: pointer;
-    margin: 0.5em;
-    transition: 0.3s;
+button {
+    border: 0;
+    background: #00000000;
 }
-.input-file-label:hover { background-color: #0789f2; }
-
+input[type="file"] { display: none; }
 
 /* basic classes */
 .card {
@@ -63,4 +56,13 @@ input[type="file"] { display: none; }
 .svg-button:hover {
     background-color: #0000000f;
     transition: 0.2s;
+}
+#rocket {
+    height: 3.6em;
+    margin-left: 2em;
+    width: auto;
+}
+#imgupload {
+    height: 3em;
+    width: auto;
 }
