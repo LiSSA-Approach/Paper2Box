@@ -4,7 +4,7 @@ def prediction2json(classes, prediciton):
     flat_box_array = extract_flat_box_array(classes, prediciton)
     box_array = create_forest_hierarchy(flat_box_array)
     #print(box_array)
-    with open('pediction.json', 'w') as file:
+    with open('prediction.json', 'w') as file:
         json.dump(box_array, file, indent=4)
 
 def extract_flat_box_array(classes, prediciton):
