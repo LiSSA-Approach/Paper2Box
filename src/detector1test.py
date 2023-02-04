@@ -1,4 +1,5 @@
 import torch, detectron2
+from prediction2json import prediction2json
 
 import numpy as np
 import os, json, cv2, random
@@ -98,4 +99,7 @@ v = Visualizer(im[:, :, ::-1], sketches_metadata, scale=0.5)
 # Draw predictions on image
 out = v.draw_instance_predictions(output["instances"].to("cpu"))
 # Show image
-show_img(out.get_image()[:, :, ::-1])
+#show_img(out.get_image()[:, :, ::-1])
+
+print(output["instances"].to("cpu"))
+print(prediction2json(classes, output["instances"].to("cpu")))
