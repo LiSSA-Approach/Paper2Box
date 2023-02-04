@@ -13,7 +13,7 @@ from detectron2 import model_zoo
 from matplotlib import pyplot as plt
 import matplotlib
 
-from box import pred_to_json
+from prediction import Prediction
 
 DATA_LOC = "../../data"
 
@@ -88,7 +88,7 @@ def get_prediction(image_file, visualize=False):
     output = predictor(im)
 
 
-    json_prediction = pred_to_json(classes, output["instances"].to("cpu"))
+    json_prediction = Prediction(im, classes, output["instances"].to("cpu")).to_json()
     if not visualize: return json_prediction 
 
     # Draw predictions using visualizer
@@ -99,5 +99,5 @@ def get_prediction(image_file, visualize=False):
     show_img(out.get_image()[:, :, ::-1])
     return json_prediction
 
-if __name__ == '__main__':
-    print(get_prediction('../../data/images/ex_01.jpg', visualize=True))
+if __name__=='__main__':
+    print(get_prediction('../../data/images/ex_70.jpg'))
