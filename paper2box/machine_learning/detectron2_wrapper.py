@@ -16,6 +16,7 @@ import matplotlib
 from machine_learning.prediction import Prediction
 
 DATA_LOC = "../data"
+registered = False
 
 def read_json(directory, name):
     json_file = os.path.join(directory, name + ".json")
@@ -63,12 +64,14 @@ def get_prediction(image_file, visualize=False):
     classes = list(map(lambda x: x["name"], read_json(DATA_LOC, "train")["categories"]))
     print(f"Classes: {classes}")
 
-    for d in ["train", "val"]:
-        DatasetCatalog.register("sketches_" + d, lambda d=d: get_dicts(DATA_LOC, d))
-        MetadataCatalog.get("sketches_" + d).set(thing_classes=classes)
+    global registered
+    if not registered:
+        for d in ["train", "val"]:
+            DatasetCatalog.register("sketches_" + d, lambda d=d: get_dicts(DATA_LOC, d))
+            MetadataCatalog.get("sketches_" + d).set(thing_classes=classes)
+            registered = True
     sketches_metadata = MetadataCatalog.get("sketches_train")
 
-    dataset_dicts = get_dicts(DATA_LOC, "train")
 
     # Model config
     cfg = get_cfg()
