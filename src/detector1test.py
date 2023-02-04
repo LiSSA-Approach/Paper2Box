@@ -1,4 +1,5 @@
 import torch, detectron2
+from prediction2json import prediction2json
 
 import numpy as np
 import os, json, cv2, random
