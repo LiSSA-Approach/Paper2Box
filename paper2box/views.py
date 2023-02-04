@@ -6,7 +6,7 @@ def index(request):
 
 def editor(request):
     # Redirect to home if no image provided
-    if request.method != 'POST' or 'image' not in request.FILES:
+    if request.method != 'POST':
         return redirect('/')
 
     # Get file from request
