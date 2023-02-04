@@ -76,6 +76,11 @@ function create_label(event) {
     _obj.setPos(0, 0);
     select(_obj.bbox);
 }
+function create_package(event) {
+    let _obj = new PackageNode(0, 0, 500, 150, selected?objectDict[selected.id]:diagram);
+    _obj.setPos(0, 0);
+    select(_obj.bbox);
+}
 function delete_selection(event) {
     if(selected && objectDict[selected.id])
         objectDict[selected.id].delete();
@@ -97,6 +102,7 @@ diagram.onmousemove = onmove;
 diagram.onmouseup = offclick;
 document.querySelector('#classnode-button').onclick = create_classnode;
 document.querySelector('#label-button').onclick = create_label;
+document.querySelector('#package-button').onclick = create_package;
 document.querySelector('#delete-button').onclick = delete_selection;
 document.querySelector('#json-button').onclick = json_out;
 
@@ -151,6 +157,10 @@ class Node {
     {
         return [parseFloat(this.bbox.style.left)*2, parseFloat(this.bbox.style.top)*2]
     }
+    getSize()
+    {
+        return [parseFloat(this.bbox.style.width)*2, parseFloat(this.bbox.style.height)*2]
+    }
     to_json()
     {
         // Get children
@@ -164,13 +174,13 @@ class Node {
         if(this.parent.id != "diagram")
             out['XYXY'] = [this.getPos()[0]+this.parent.getPos()[0],
                            this.getPos()[1]+this.parent.getPos()[1],
-                           this.getPos()[0]+this.parent.getPos()[0]+this.size[0],
-                           this.getPos()[1]+this.parent.getPos()[1]+this.size[1]];
+                           this.getPos()[0]+this.parent.getPos()[0]+this.getSize()[0],
+                           this.getPos()[1]+this.parent.getPos()[1]+this.getSize()[1]];
         else
             out['XYXY'] = [this.getPos()[0],
                            this.getPos()[1],
-                           this.getPos()[0]+this.size[0],
-                           this.getPos()[1]+this.size[1]];
+                           this.getPos()[0]+this.getSize()[0],
+                           this.getPos()[1]+this.getSize()[1]];
 
         out['children'] = children;
         return out;
@@ -232,7 +242,10 @@ class ClassNode extends Node {
 }
 
 class PackageNode extends Node {
-
+    constructor(x1, y1, x2, y2, parent=diagram, _class="PackageNode") {
+        super(x1, y1, x2, y2, parent, _class);
+        this.bbox.classList.add('PackageNode');
+    }
 }
 
 class AggregationNode extends Node {
@@ -266,16 +279,22 @@ function initChildreen(object, parent)
         switch(child.class) {
             case "ClassNode":
                 let _classnode = new ClassNode(0, 0, child.XYXY[2]-child.XYXY[0], child.XYXY[3]-child.XYXY[1], parent);
-                    _label.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
-                    initChildreen(child, _classnode);
-                    parent.children.push(_classnode);
-                    break;
-                case "Label":
-                    let _label = new Label(0, 0, child.XYXY[2]-child.XYXY[0], child.XYXY[3]-child.XYXY[1], child.text, parent);
-                    _label.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
-                    initChildreen(child, _label);
-                    parent.children.push(_label);
-                    break;
+                _classnode.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
+                initChildreen(child, _classnode);
+                parent.children.push(_classnode);
+                break;
+            case "Label":
+                let _label = new Label(0, 0, child.XYXY[2]-child.XYXY[0], child.XYXY[3]-child.XYXY[1], child.text, parent);
+                _label.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
+                initChildreen(child, _label);
+                parent.children.push(_label);
+                break;
+            case "PackageNode":
+                let _packagenode = new PackageNode(0, 0, child.XYXY[2]-child.XYXY[0], child.XYXY[3]-child.XYXY[1], child.text, parent);
+                _packagenode.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
+                initChildreen(child, _packagenode);
+                parent.children.push(_packagenode);
+                break;
     }
 }
 
@@ -291,6 +310,10 @@ for(object of objects)
         case "Label":
             let _label = new Label(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
             initChildreen(object, _label)
+            break;
+        case "PackageNode":
+            let _packagenode = new PackageNode(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
+            initChildreen(object, _packagenode)
             break;
     }
 }
