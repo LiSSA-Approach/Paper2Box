@@ -31,6 +31,16 @@ def editor(request):
     # Send back editor with retrieved data
     return HttpResponse(render(request, 'editor.html', context={"json": json_response}))
 
+def editor_json(request):
+    # Redirect to home if no image provided
+    if request.method != 'POST':
+        return redirect('/')
+
+    json_response = request.POST['json']
+
+    # Send back editor with retrieved data
+    return HttpResponse(render(request, 'editor.html', context={"json": json_response}))
+
 def demo_editor(request):
     with open('./static/demo/predictions.json') as f:
         json_response = f.read()

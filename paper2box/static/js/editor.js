@@ -85,8 +85,10 @@ function delete_selection(event) {
     if(selected && objectDict[selected.id])
         objectDict[selected.id].delete();
 }
+let json_area_on = false;
 function json_out(event) {
-    alert(json_conversion());
+    json_area_on = !json_area_on;
+    document.querySelector('#json-form').style.display = json_area_on?"flex":"none";
 }
 function register(object) {
     objectDict[object.bbox.id] = object;
@@ -95,6 +97,7 @@ function unregister(object)
 {
     objectDict[object.bbox.id] = null;
 }
+
 
 // Setting up events
 diagram.onmousedown = onclick;
@@ -105,8 +108,10 @@ document.querySelector('#label-button').onclick = create_label;
 document.querySelector('#package-button').onclick = create_package;
 document.querySelector('#delete-button').onclick = delete_selection;
 document.querySelector('#json-button').onclick = json_out;
-
-
+document.querySelector('#json-ctc').onclick = function(event) {
+    navigator.clipboard.writeText(json_conversion());
+}
+document.querySelector('#json-form').disabled = true;
 
 /*
 JSON conversion
