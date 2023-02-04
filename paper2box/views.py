@@ -6,15 +6,17 @@ def index(request):
 
 def editor(request):
     # Redirect to home if no image provided
-    if request.method != 'PUT':
+    if request.method != 'POST' or 'image' not in request.FILES:
         return redirect('/')
 
-    # Get form from request
-    form = UploadFileForm(request.PUT, request.FILES)
+    # Get file from request
+    file = request.FILES['image']
 
-    # Redirect to home if form in request if invalid
-    if not form.is_valid():
-        return redirect('/')
+    path = ''.join([chr(random.range(65, 90)) for i in range(30)])+'.jpg'
+    with open('./media/img/'+path, 'w') as f:
+        content = file.read()
+        print(content)
+        f.write(content)
 
     # Do machine learning
     json_response = ...

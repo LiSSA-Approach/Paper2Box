@@ -25,19 +25,6 @@
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
-.svg-button {
-    width: 2.5em;
-    height: 2.5em;
-    display: block;
-    cursor: pointer;
-    border-radius: 0.5em;
-    padding: 1em;
-    transition: 0.5s;
-}
-.svg-button:hover {
-    background-color: #0000000f;
-    transition: 0.2s;
-}
 
 
 
