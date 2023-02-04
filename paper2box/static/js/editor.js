@@ -105,39 +105,16 @@ document.querySelector('#json-button').onclick = json_out;
 /*
 JSON conversion
 */
-function convert_object(object)
-{
-    if(!object.children) return false;
-
-    // Get children
-    children = [];
-    for(child of object.children)
-        children.push(convert_object(children));
-
-    out = {};
-    out['class'] = object._class;
-    if(object.parent.id != "diagram")
-        out['XYXY'] = [object.topleft[0]+object.parent.topleft[0],
-                       object.topleft[1]+object.parent.topleft[1],
-                       object.topleft[0]+object.parent.topleft[0]+object.size[0],
-                       object.topleft[1]+object.parent.topleft[1]+object.size[1]];
-    else
-        out['XYXY'] = [object.topleft[0],
-                       object.topleft[1],
-                       object.topleft[0]+object.size[0],
-                       object.topleft[1]+object.size[1]];
-    out['children'] = children;
-    return out;
-}
 function json_conversion()
 {
     let out = [];
     // Get all root nodes
     for(let i = 0; i <rootNodes.length; i++) {
-        node_json = convert_object(rootNodes[i]);
+        node_json = rootNodes[i].to_json();
         if(node_json) out.push(node_json);
     }
-    return JSON.stringify(out);
+    // Return prettified JSON
+    return JSON.stringify(out, null, '\t');
 }
 
 
@@ -170,8 +147,36 @@ class Node {
         this.bbox.style.cssText = 'left: ' + this.topleft[0]/2 + 'px; top: ' + this.topleft[1]/2 + 'px; width: '
         + this.size[0]/2 + 'px; height: ' + this.size[1]/2 + 'px;';
     }
+    getPos()
+    {
+        return [parseFloat(this.bbox.style.left)*2, parseFloat(this.bbox.style.top)*2]
+    }
+    to_json()
+    {
+        // Get children
+        let children = [];
+        for(let i = 0; i < this.children.length; i++)
+            children.push(this.children[i].to_json());
 
-    constructor(x1, y1, x2, y2, parent=diagram, _class="classNode")
+        let out = {};
+        out['class'] = this._class;
+        if(this._class == 'Label') out['text'] = this.text;
+        if(this.parent.id != "diagram")
+            out['XYXY'] = [this.getPos()[0]+this.parent.getPos()[0],
+                           this.getPos()[1]+this.parent.getPos()[1],
+                           this.getPos()[0]+this.parent.getPos()[0]+this.size[0],
+                           this.getPos()[1]+this.parent.getPos()[1]+this.size[1]];
+        else
+            out['XYXY'] = [this.getPos()[0],
+                           this.getPos()[1],
+                           this.getPos()[0]+this.size[0],
+                           this.getPos()[1]+this.size[1]];
+
+        out['children'] = children;
+        return out;
+    }
+
+    constructor(x1, y1, x2, y2, parent=diagram, _class="ClassNode")
     {
         if(parent.bbox) this.topleft = [x1-parent.topleft[0], y1-parent.topleft[1]];
         else this.topleft = [x1, y1];
@@ -191,6 +196,7 @@ class Node {
         if(parent.id != 'diagram') {
             parent.bbox.appendChild(this.bbox);
             parent.children.push(this);
+            console.log(parent.bbox.id, parent.children);
         }
         else {
             parent.appendChild(this.bbox);
@@ -207,7 +213,7 @@ class Node {
 
 class Label extends Node {
     constructor(x1, y1, x2, y2, text="Label", parent=diagram, _class="Label") {
-        super(x1, y1, x2, y2, parent);
+        super(x1, y1, x2, y2, parent, _class);
         this.bbox.classList.add('Label');
 
         // Create label text
@@ -283,7 +289,6 @@ for(object of objects)
             initChildreen(object, _classnode)
             break;
         case "Label":
-            console.log(object);
             let _label = new Label(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
             initChildreen(object, _label)
             break;

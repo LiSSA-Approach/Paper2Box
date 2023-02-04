@@ -23,6 +23,6 @@ def editor(request):
     return HttpResponse(render(request, 'editor.html', context={"json": json_response}))
 
 def demo_editor(request):
-    with open('/home/sdoxl/SofDCar/paper2box/static/demo/predictions.json') as f:
+    with open('./static/demo/predictions.json') as f:
         json_response = f.read()
         return HttpResponse(render(request, 'editor.html', context={"json": json_response}))
