@@ -2,15 +2,25 @@
 <html>
 <head>
         <!-- CSS -->
+        <link rel="stylesheet" href="/static/css/base.css">
+        {% block css %}{% endblock %}
 
         <!-- JS -->
-
+        {% block js %}{% endblock %}
 </head>
 <body>
         <div id="navbar">
+            <div id="navbar-left">
+                <a href="/" class="navbar-brand"><h1>Paper2Box</h1></a>
+            </div>
+            <div id="navbar-right">
+                {% block navbar-right %}{% endblock %}
+            </div>
         </div>
+        {% block pre-content %}{% endblock %}
         <div id="content">
             {% block content %}{% endblock %}
         </div>
+        {% block post-content %}{% endblock %}
 </body>
 </html>

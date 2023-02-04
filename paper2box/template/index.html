@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block js %}
+    <script src="/static/js/index.js" defer></script>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <h2 class="content-center"> The age of pen and paper is behind us! </h2>
+        <hr>
+        <p class="content-center"> Still have old hand drawn class diagrams and can't be bothered to ditialize them? </p>
+        <p class="content-center"> Let us help you! Digitalise your class diagrams online using R-CNN instead </p>
+        <form action="/convert/" method="put" class="content-center">
+            <label for="input-image" class="input-file-label">Select Image</label>
+            <input type="file" id="input-image" name="image">
+        </form>
+    </div>
+{% endblock %}

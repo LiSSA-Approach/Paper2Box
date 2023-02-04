@@ -37,8 +37,6 @@ def read_json(directory, name):
 
 
 classes = list(map(lambda x: x["name"], read_json("data", "train")["categories"]))
-print(f"Classes: {classes}")
-
 
 def get_dicts(directory, name):
     data = read_json(directory, f"{name}")
@@ -85,10 +83,10 @@ cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_F
 # ROI pooling threshold
 cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 1e-10
 # Get weights for model
+print("LOAD MODEL")
 cfg.MODEL.WEIGHTS = './model/model_final.pth'
 # Set device to
 cfg.MODEL.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(classes)
 
 predictor = DefaultPredictor(cfg)
 
@@ -96,7 +94,7 @@ im = cv2.imread('./data/images/ex_02.jpg')
 output = predictor(im)
 
 # Draw predictions using visualizer
-v = Visualizer(im[:, :, ::-1], metadata=sketches_metadata, scale=1.2)
+v = Visualizer(im[:, :, ::-1], sketches_metadata, scale=0.5)
 # Draw predictions on image
 out = v.draw_instance_predictions(output["instances"].to("cpu"))
 # Show image
