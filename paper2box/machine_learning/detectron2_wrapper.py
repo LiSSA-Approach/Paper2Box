@@ -13,9 +13,10 @@ from detectron2 import model_zoo
 from matplotlib import pyplot as plt
 import matplotlib
 
-from prediction import Prediction
+from machine_learning.prediction import Prediction
 
-DATA_LOC = "../../data"
+DATA_LOC = "../data"
+registered = False
 
 def read_json(directory, name):
     json_file = os.path.join(directory, name + ".json")
@@ -63,12 +64,14 @@ def get_prediction(image_file, visualize=False):
     classes = list(map(lambda x: x["name"], read_json(DATA_LOC, "train")["categories"]))
     print(f"Classes: {classes}")
 
-    for d in ["train", "val"]:
-        DatasetCatalog.register("sketches_" + d, lambda d=d: get_dicts(DATA_LOC, d))
-        MetadataCatalog.get("sketches_" + d).set(thing_classes=classes)
+    global registered
+    if not registered:
+        for d in ["train", "val"]:
+            DatasetCatalog.register("sketches_" + d, lambda d=d: get_dicts(DATA_LOC, d))
+            MetadataCatalog.get("sketches_" + d).set(thing_classes=classes)
+            registered = True
     sketches_metadata = MetadataCatalog.get("sketches_train")
 
-    dataset_dicts = get_dicts(DATA_LOC, "train")
 
     # Model config
     cfg = get_cfg()
@@ -77,7 +80,7 @@ def get_prediction(image_file, visualize=False):
     # ROI pooling threshold
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 1e-10
     # Get weights for model
-    cfg.MODEL.WEIGHTS = './model_final.pth'
+    cfg.MODEL.WEIGHTS = './machine_learning/model_final.pth'
     # Set device to
     cfg.MODEL.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(classes)
@@ -88,7 +91,7 @@ def get_prediction(image_file, visualize=False):
     output = predictor(im)
 
 
-    json_prediction = Prediction(im, classes, output["instances"].to("cpu")).to_json()
+    json_prediction = Prediction(im, classes, output["instances"].to("cpu")[output["instances"].to("cpu")._fields["pred_classes"] != 5]).to_json()
     if not visualize: return json_prediction 
 
     # Draw predictions using visualizer
