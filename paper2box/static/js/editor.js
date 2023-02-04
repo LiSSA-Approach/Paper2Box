@@ -265,8 +265,13 @@ class RealizationNode extends Node {
 
 }
 
-class AssociationNode extends Node {
+class Connection extends Node {
+    constructor(x1, y1, x2, y2, direction='up', parent=diagram, _class="Connection") {
+        super(x1, y1, x2, y2, parent, _class);
+        this.bbox.classList.add('Connection');
 
+        this.bbox.classList.add(direction=='up'?'up':'down');
+    }
 }
 
 
@@ -300,6 +305,12 @@ function initChildreen(object, parent)
                 initChildreen(child, _packagenode);
                 parent.children.push(_packagenode);
                 break;
+            case "Connection":
+                let _connection = new Connection(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.direction, parent);
+                _connection.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
+                initChildreen(object, _connection)
+                parent.children.push(_connection);
+                break;
     }
 }
 
@@ -319,6 +330,19 @@ for(object of objects)
         case "PackageNode":
             let _packagenode = new PackageNode(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
             initChildreen(object, _packagenode)
+            break;
+        case "NAryAssociationDiamond":
+        case "Aggregation":
+        case "Composition":
+        case "Extension":
+        case "Dependency":
+        case "Realization":
+        case "CommentConnection":
+        case "AssociationUnidirectional":
+        case "AssociationBidirectional":
+        case "Connection":
+            let _connection = new Connection(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.direction);
+            initChildreen(object, _connection)
             break;
     }
 }
