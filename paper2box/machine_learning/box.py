@@ -13,7 +13,10 @@ class Box():
 
 class BoxSerializer(json.JSONEncoder):
     def default(self, o):
-        return o.__dict__
+        dict_ = o.__dict__
+        dict_['class'] = dict_['class_']
+        del dict_['class_']
+        return dict_
 
 
 def extract_boxes(classes, prediction):
