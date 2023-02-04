@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+import paper2box.settings as settings
 import views
 
 urlpatterns = [
@@ -23,3 +25,6 @@ urlpatterns = [
     path('editor/', views.editor),
     path('demo/editor/', views.demo_editor),
 ]
+
+# Media files
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
