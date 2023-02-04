@@ -67,7 +67,6 @@ function offclick(event) {
 }
 
 function create_classnode(event) {
-    console.log(selected.id, selected.style.left, selected.style.top);
     let _obj = new ClassNode(0, 0, 300, 200, selected?objectDict[selected.id]:diagram);
     _obj.setPos(0, 0);
     select(_obj.bbox);
@@ -80,7 +79,9 @@ function create_label(event) {
 function delete_selection(event) {
     if(selected && objectDict[selected.id])
         objectDict[selected.id].delete();
-
+}
+function json_out(event) {
+    alert(json_conversion());
 }
 function register(object) {
     objectDict[object.bbox.id] = object;
@@ -97,27 +98,48 @@ diagram.onmouseup = offclick;
 document.querySelector('#classnode-button').onclick = create_classnode;
 document.querySelector('#label-button').onclick = create_label;
 document.querySelector('#delete-button').onclick = delete_selection;
+document.querySelector('#json-button').onclick = json_out;
 
 
 
 /*
 JSON conversion
 */
-function json_conversion()
-{
-    let out = [];
-}
 function convert_object(object)
 {
+    if(!object.children) return false;
+
     // Get children
     children = [];
     for(child of object.children)
         children.push(convert_object(children));
 
     out = {};
-    out['class'] = object.class;
+    out['class'] = object._class;
+    if(object.parent.id != "diagram")
+        out['XYXY'] = [object.topleft[0]+object.parent.topleft[0],
+                       object.topleft[1]+object.parent.topleft[1],
+                       object.topleft[0]+object.parent.topleft[0]+object.size[0],
+                       object.topleft[1]+object.parent.topleft[1]+object.size[1]];
+    else
+        out['XYXY'] = [object.topleft[0],
+                       object.topleft[1],
+                       object.topleft[0]+object.size[0],
+                       object.topleft[1]+object.size[1]];
     out['children'] = children;
+    return out;
 }
+function json_conversion()
+{
+    let out = [];
+    // Get all root nodes
+    for(let i = 0; i <rootNodes.length; i++) {
+        node_json = convert_object(rootNodes[i]);
+        if(node_json) out.push(node_json);
+    }
+    return JSON.stringify(out);
+}
+
 
 
 /*
@@ -157,6 +179,7 @@ class Node {
         this.children = [];
         this.parent = parent;
         this.id = id++;
+        this._class = _class;
 
         // Create basic bbox aka resizable border + background
         this.bbox = document.createElement('div');
@@ -183,12 +206,12 @@ class Node {
 }
 
 class Label extends Node {
-    constructor(x1, y1, x2, y2, text="Label", parent=diagram) {
+    constructor(x1, y1, x2, y2, text="Label", parent=diagram, _class="Label") {
         super(x1, y1, x2, y2, parent);
         this.bbox.classList.add('Label');
 
         // Create label text
-        this.text= text;
+        this.text = text;
         this.labeltext = document.createElement('textarea');
         this.labeltext.value = text;
         this.labeltext.classList.add('Label-text');
@@ -197,7 +220,7 @@ class Label extends Node {
 }
 
 class ClassNode extends Node {
-    constructor(x1, y1, x2, y2, parent=diagram) {
+    constructor(x1, y1, x2, y2, parent=diagram, _class="ClassNode") {
         super(x1, y1, x2, y2, parent);
     }
 }
@@ -236,12 +259,14 @@ function initChildreen(object, parent)
     for(child of object.children)
         switch(child.class) {
             case "ClassNode":
-                let _classnode = new ClassNode(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1], child.XYXY[2], child.XYXY[3], parent);
+                let _classnode = new ClassNode(0, 0, child.XYXY[2]-child.XYXY[0], child.XYXY[3]-child.XYXY[1], parent);
+                    _label.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
                     initChildreen(child, _classnode);
                     parent.children.push(_classnode);
                     break;
                 case "Label":
-                    let _label = new Label(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1], child.XYXY[2], child.XYXY[3], child.text, parent);
+                    let _label = new Label(0, 0, child.XYXY[2]-child.XYXY[0], child.XYXY[3]-child.XYXY[1], child.text, parent);
+                    _label.setPos(child.XYXY[0]-object.XYXY[0], child.XYXY[1]-object.XYXY[1]);
                     initChildreen(child, _label);
                     parent.children.push(_label);
                     break;
@@ -258,6 +283,7 @@ for(object of objects)
             initChildreen(object, _classnode)
             break;
         case "Label":
+            console.log(object);
             let _label = new Label(object.XYXY[0], object.XYXY[1], object.XYXY[2], object.XYXY[3], object.text);
             initChildreen(object, _label)
             break;
