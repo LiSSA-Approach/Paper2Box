@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/css/editor.css">
+{% endblock %}
+{% block js %}
+    <script src="/static/js/editor.js" defer></script>
+{% endblock %}
+{% block content %}
+    <div id="diagram">
+        {{json}}
+    </div>
+    <div id="sidebar">
+        <img src="/static/img/classnode.svg" class="svg-button" id="classnode-button">
+        <img src="/static/img/label.svg" class="svg-button" id="label-button">
+        <img src="/static/img/package.svg" class="svg-button" id="package-button">
+        <img src="/static/img/delete.svg" class="svg-button" id="delete-button">
+    </div>
+{% endblock %}
