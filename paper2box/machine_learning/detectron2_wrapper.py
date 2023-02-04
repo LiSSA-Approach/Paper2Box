@@ -13,9 +13,9 @@ from detectron2 import model_zoo
 from matplotlib import pyplot as plt
 import matplotlib
 
-from prediction import Prediction
+from machine_learning.prediction import Prediction
 
-DATA_LOC = "../../data"
+DATA_LOC = "../data"
 
 def read_json(directory, name):
     json_file = os.path.join(directory, name + ".json")
@@ -77,7 +77,7 @@ def get_prediction(image_file, visualize=False):
     # ROI pooling threshold
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 1e-10
     # Get weights for model
-    cfg.MODEL.WEIGHTS = './model_final.pth'
+    cfg.MODEL.WEIGHTS = './machine_learning/model_final.pth'
     # Set device to
     cfg.MODEL.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(classes)

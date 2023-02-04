@@ -8,7 +8,7 @@
         <hr>
         <p class="content-center"> Still have old hand drawn class diagrams and can't be bothered to ditialize them? </p>
         <p class="content-center"> Let us help you! Digitalise your class diagrams online using R-CNN instead </p>
-        <form action="/editor/" method="post" class="content-center">
+        <form action="/editor/" method="post" class="content-center" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="input-image" class="input-file-label"><img class="svg-button" src="/static/img/imgupload.svg" id="imgupload"></label>
             <input type="file" id="input-image" name="image" accept="*.jpg">

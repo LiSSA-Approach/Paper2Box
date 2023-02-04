@@ -1,7 +1,7 @@
 import copy, json
-from connection_recognition import find_connections
-from label_recognition import recognize_text
-from box import Box, BoxSerializer
+from machine_learning.connection_recognition import find_connections
+from machine_learning.label_recognition import recognize_text
+from machine_learning.box import Box, BoxSerializer
 
 connection_classes = [
     'NAryAssociationDiamond', 
