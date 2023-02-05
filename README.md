@@ -6,4 +6,8 @@
 ##### Landing Page
 ![landing page image](https://imgur.com/tbIClqI.png)
 ##### Editor demo
+*The web app features an interactive editor built entirely in javascript.*
 ![editor demo image](https://imgur.com/3HXElB2.png)
+##### JSON Download & Upload demo
+*Diagrams can be loaded into and saved from the editor.*
+![json demo](https://imgur.com/XJ7Mw7R.png)
