@@ -4,7 +4,7 @@
 
 ## Showcase Images
 ##### Landing Page
-![landing page image](https://imgur.com/tbIClqI.png)
+![landing page image](https://imgur.com/cp6oEja.png)
 ##### Editor demo
 *The web app features an interactive editor built entirely in javascript.*
 ![editor demo image](https://imgur.com/3HXElB2.png)
