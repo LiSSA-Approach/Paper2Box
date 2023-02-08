@@ -41,7 +41,6 @@
     cursor: grab;
     resize: both;
     overflow: hidden;
-    transition: 0.1s;
 }
 
 .Label-text {
@@ -73,6 +72,7 @@
 }
 
 #json-area {
+    display: none;
     position: absolute;
     justify-self: center;
     top:40%;
@@ -80,7 +80,7 @@
 }
 
 #json-form {
-    display: none;
+    display: flex;
 }
 
 #json-input {
@@ -99,38 +99,17 @@
 
 #json-ctc { margin-left: -1em; }
 
-/*
-Lines
-*/
-.up {
-    background:
-         linear-gradient(to top left,
-             rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 0.8px),
-             rgba(0,0,0,1) 50%,
-             rgba(0,0,0,0) calc(50% + 0.8px),
-             rgba(0,0,0,0) 100%),
-         linear-gradient(to top right,
-             rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 0.8px),
-             rgba(0,0,0,0) 50%,
-             rgba(0,0,0,0) calc(50% + 0.8px),
-             rgba(0,0,0,0) 100%);
+.Connection {
+    border: 0;
+    border-radius: 100%;
+    background-color: #ff383d0f;
+    resize: none;
+    z-index: 1;
 }
-.down {
-    background:
-         linear-gradient(to top left,
-             rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 0.8px),
-             rgba(0,0,0,0) 50%,
-             rgba(0,0,0,0) calc(50% + 0.8px),
-             rgba(0,0,0,0) 100%),
-         linear-gradient(to top right,
-             rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 0.8px),
-             rgba(0,0,0,1) 50%,
-             rgba(0,0,0,0) calc(50% + 0.8px),
-             rgba(0,0,0,0) 100%);
+.Connection:hover {
+    background-color: #ff383d4f;
 }
-
-.Connection { border: 0; }
+canvas {
+    width: 100%;
+    height: 100%;
+}

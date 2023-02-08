@@ -7,24 +7,25 @@ def index(request):
     return HttpResponse(render(request, 'index.html'))
 
 def editor(request):
-    # Redirect to home if no image provided
-    if request.method != 'POST':
+        # Redirect to home if no image provided
+    if request.method != 'POST' or 'image' not in request.FILES:
         return redirect('/')
 
     # Get file from request
     file = request.FILES['image']
 
-    path = ''.join([chr(random.randrange(65, 90)) for i in range(30)])+'.jpg'
-    fpath = './media/img/'+path
-    with open(fpath, 'wb') as f:
+    path = ''.join([chr(random.range(65, 90)) for i in range(30)])+'.jpg'
+    with open('./media/img/'+path, 'w') as f:
         content = file.read()
+        print(content)
         f.write(content)
 
     # Do machine learning
-    json_response = get_prediction(fpath)
+    json_response = get_prediction(path)
 
     # Send back editor with retrieved data
     return HttpResponse(render(request, 'editor.html', context={"json": json_response}))
+
 
 def editor_json(request):
     # Redirect to home if no image provided
